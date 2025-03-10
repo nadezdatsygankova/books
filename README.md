@@ -13,7 +13,7 @@ Features
 	•	Environment Variables: Manage DB credentials securely via .env.
 
   Table of Contents
-	1.	Requirements
+	1.	Requirements [Requirements]
 	2.	Installation
 	3.	Configuration
 	4.	Database Setup
@@ -22,11 +22,11 @@ Features
 	7.	Routes Overview
 	8.	License
 
-Requirements
+## Requirements
 	•	Node.js (v14+ recommended)
 	•	PostgreSQL (v12+ recommended)
 
-Installation
+## Installation
 	1.	Clone the repository:
 ```
 git clone https://github.com/yourusername/books-project.git
