@@ -1,45 +1,50 @@
 <!-- views/index.ejs -->
-<h2>All Books</h2>
-
-<div class="sorting">
-  <span>Sort By:</span>
-  <a href="/?sort=rating">Rating</a> |
-  <a href="/?sort=date">Date Read</a> |
-  <a href="/">Default</a>
+<div class="mb-4">
+  <h2 class="my-3">All Books</h2>
+  <div class="d-flex gap-2 mb-2">
+    <strong>Sort By:</strong>
+    <a class="btn btn-outline-primary btn-sm" href="/?sort=rating">Rating</a>
+    <a class="btn btn-outline-primary btn-sm" href="/?sort=date">Date Read</a>
+    <a class="btn btn-outline-primary btn-sm" href="/">Default</a>
+  </div>
 </div>
 
 <% if (!books || books.length === 0) { %>
-  <p>No Books Found. Try adding a new one!</p>
+  <div class="alert alert-warning">
+    No books found. Try adding one!
+  </div>
 <% } else { %>
-  <ul>
+  <ul class="list-group">
     <% books.forEach(book => { %>
-      <li>
+      <li class="list-group-item mb-2">
         <h3><%= book.title %></h3>
-        <p>Author: <%= book.author || 'N/A' %></p>
-        <p>Rating: <%= book.rating || 'N/A' %></p>
+        <p class="mb-1">Author: <%= book.author || 'N/A' %></p>
+        <p class="mb-1">Rating: <%= book.rating || 'N/A' %></p>
 
         <% if (book.date_read) { %>
-          <p>Date Read: <%= new Date(book.date_read).toDateString() %></p>
+          <p class="mb-1">Date Read: <%= new Date(book.date_read).toDateString() %></p>
         <% } %>
 
         <% if (book.isbn) { %>
           <!-- Cover from Open Library -->
           <img
+            class="img-thumbnail"
             src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg"
             alt="Cover for <%= book.title %>"
             width="200"
           />
         <% } %>
 
-        <p><%= book.review || '' %></p>
+        <p class="mb-2"><%= book.review || '' %></p>
 
         <!-- Delete button -->
-        <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
-          <button type="submit">Delete</button>
-        </form>
-
+         <div lass="d-flex gap-2">
+          <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+         </div>
         <!-- Edit link -->
-        <a href="/books/<%= book.id %>/edit">Edit</a>
+        <a class="btn btn-secondary btn-sm" href="/books/<%= book.id %>/edit">Edit</a>
       </li>
     <% }) %>
   </ul>

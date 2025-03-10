@@ -1,9 +1,10 @@
 <!-- views/edit.ejs -->
-<h2>Edit Book</h2>
-<form action="/books/<%= book.id %>" method="POST">
-  <div>
-    <label for="title">Title:</label>
+<h2 class="my-3">Edit Book</h2>
+<form action="/books/<%= book.id %>" method="POST" class="row g-3">
+  <div class="col-md-6">
+    <label for="title" class="form-label">Title:</label>
     <input
+      class="form-control"
       type="text"
       name="title"
       id="title"
@@ -12,9 +13,10 @@
     />
   </div>
 
-  <div>
-    <label for="author">Author:</label>
+  <div class="col-md-6">
+    <label for="author" class="form-label">Author:</label>
     <input
+      class="form-control"
       type="text"
       name="author"
       id="author"
@@ -22,9 +24,10 @@
     />
   </div>
 
-  <div>
-    <label for="isbn">ISBN:</label>
+  <div class="col-md-6">
+    <label for="isbn" class="form-label">ISBN:</label>
     <input
+      class="form-control"
       type="text"
       name="isbn"
       id="isbn"
@@ -32,9 +35,10 @@
     />
   </div>
 
-  <div>
-    <label for="rating">Rating (1-5):</label>
+  <div class="col-md-6">
+    <label for="rating" class="form-label">Rating (1-5):</label>
     <input
+      class="form-control"
       type="number"
       name="rating"
       id="rating"
@@ -44,20 +48,22 @@
     />
   </div>
 
-  <div>
-    <label for="review">Review:</label>
-    <textarea name="review" id="review"><%= book.review %></textarea>
+  <div class="col-md-6">
+    <label for="review" class="form-label">Review:</label>
+    <textarea class="form-control" name="review" id="review"><%= book.review %></textarea>
   </div>
 
-  <div>
-    <label for="date_read">Date Read:</label>
+  <div class="col-md-6">
+    <label for="date_read" class="form-label">Date Read:</label>
     <input
+      class="form-control"
       type="date"
       name="date_read"
       id="date_read"
       value="<%= book.date_read ? new Date(book.date_read).toISOString().split('T')[0] : '' %>"
     />
   </div>
-
+<div class="col-12">
   <button type="submit">Save Changes</button>
+</div>
 </form>
