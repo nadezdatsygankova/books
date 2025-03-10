@@ -1,6 +1,6 @@
 Books CRUD Project
 
-
+![alt text](./My%20Book%20Logger.jpg)
 
 A simple Node.js application for managing your reading list with Create, Read, Update, and Delete (CRUD) operations. Uses PostgreSQL for data storage, EJS for server-side rendering, and Bootstrap for styling. Integrates with the Open Library Covers API to display book covers by ISBN.
 
