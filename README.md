@@ -35,7 +35,8 @@ Features
 •	PostgreSQL (v12+ recommended)
 
 ## Installation
-	1.	Clone the repository:
+1.	Clone the repository:
+
 ```
 git clone https://github.com/yourusername/books-project.git
 cd books-project
@@ -70,11 +71,11 @@ DB_PORT=5432
 Add any additional environment variables here (e.g., PORT=3000 if you want to override the default). Never commit your .env file to version control.
 
 ## Database Setup
-	1.	Create the database (using psql or a GUI):
+1.	Create the database (using psql or a GUI):
 ```
 CREATE DATABASE books_db;
 ```
-	2.	Create the books table:
+2.	Create the books table:
 ```
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
@@ -88,37 +89,35 @@ CREATE TABLE books (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 ```
-	3.	Confirm your credentials in .env match the DB you just created.
+3.	Confirm your credentials in .env match the DB you just created.
 
 ## Usage
-	1.	Run the app:
+1.	Run the app:
  ```
  npm run dev
  ```
  This starts the server on http://localhost:3000.
-
-	2.	View the main page:
+2.	View the main page:
 	•	Go to http://localhost:3000 to see your book list.
 	•	Use the Add Book button to create a new entry.
-	3.	Sort Books:
+3.	Sort Books:
 	•	Add ?sort=rating to sort by rating: e.g., http://localhost:3000/?sort=rating.
 	•	Add ?sort=date to sort by date read.
-	4.	Edit or Delete:
+4.	Edit or Delete:
 	•	Click Edit to update a book’s details.
 	•	Click Delete to remove a book from the list.
 
 ## Project Structure
-This starts the server on http://localhost:3000.
-
-	2.	View the main page:
-	•	Go to http://localhost:3000 to see your book list.
-	•	Use the Add Book button to create a new entry.
-	3.	Sort Books:
-	•	Add ?sort=rating to sort by rating: e.g., http://localhost:3000/?sort=rating.
-	•	Add ?sort=date to sort by date read.
-	4.	Edit or Delete:
-	•	Click Edit to update a book’s details.
-	•	Click Delete to remove a book from the list.
+1. his starts the server on http://localhost:3000.
+2.	View the main page:
+ •	Go to http://localhost:3000 to see your book list.
+ •	Use the Add Book button to create a new entry.
+3.	Sort Books:
+ •	Add ?sort=rating to sort by rating: e.g., http://localhost:3000/?sort=rating.
+ •	Add ?sort=date to sort by date read.
+4.	Edit or Delete:
+ •	Click Edit to update a book’s details.
+ •	Click Delete to remove a book from the list.
 
 Project Structure
 ![alt text](./structure.jpg)
