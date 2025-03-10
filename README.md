@@ -1,4 +1,4 @@
-Books CRUD Project
+# Books CRUD Project
 
 ![alt text](./My%20Book%20Logger.jpg)
 
@@ -20,13 +20,21 @@ Features
 	5.	Usage
 	6.	Project Structure
 	7.	Routes Overview
-	8.	License
 
-Requirements
-	•	Node.js (v14+ recommended)
-	•	PostgreSQL (v12+ recommended)
+## Table of Contents
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Database Setup](#database-setup)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Routes Overview](#routes-overview)
 
-Installation
+##  Requirements
+•	Node.js (v14+ recommended)
+•	PostgreSQL (v12+ recommended)
+
+## Installation
 	1.	Clone the repository:
 ```
 git clone https://github.com/yourusername/books-project.git
@@ -49,7 +57,7 @@ npm start
 ```
 (depending on the scripts in package.json)
 
-Configuration
+## Configuration
 
 Create a .env file in the root directory:
 ```
@@ -61,7 +69,7 @@ DB_PORT=5432
 ```
 Add any additional environment variables here (e.g., PORT=3000 if you want to override the default). Never commit your .env file to version control.
 
-Database Setup
+## Database Setup
 	1.	Create the database (using psql or a GUI):
 ```
 CREATE DATABASE books_db;
@@ -82,7 +90,7 @@ CREATE TABLE books (
 ```
 	3.	Confirm your credentials in .env match the DB you just created.
 
-Usage
+## Usage
 	1.	Run the app:
  ```
  npm run dev
@@ -99,7 +107,7 @@ Usage
 	•	Click Edit to update a book’s details.
 	•	Click Delete to remove a book from the list.
 
-Project Structure
+## Project Structure
 This starts the server on http://localhost:3000.
 
 	2.	View the main page:
@@ -114,7 +122,7 @@ This starts the server on http://localhost:3000.
 
 Project Structure
 ![alt text](./structure.jpg)
-Routes Overview
+## Routes Overview
 
 GET /
 	•	Purpose: Display all books.
