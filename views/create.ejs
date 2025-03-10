@@ -1,35 +1,37 @@
-<!-- views/create.ejs -->
-<h2>Add a New Book</h2>
-<form action="/books" method="POST">
-  <div>
-    <label for="title">Title:</label>
-    <input name="title" id="title" required />
+<!-- create.ejs -->
+<h2 class="my-3">Add a New Book</h2>
+<form action="/books" method="POST" class="row g-3">
+  <div class="col-md-6">
+    <label for="title" class="form-label">Title:</label>
+    <input name="title" id="title" class="form-control" required />
   </div>
 
-  <div>
-    <label for="author">Author:</label>
-    <input name="author" id="author" />
+  <div class="col-md-6">
+    <label for="author" class="form-label">Author:</label>
+    <input name="author" id="author" class="form-control" />
   </div>
 
-  <div>
-    <label for="isbn">ISBN:</label>
-    <input name="isbn" id="isbn" />
+  <div class="col-md-4">
+    <label for="isbn" class="form-label">ISBN:</label>
+    <input name="isbn" id="isbn" class="form-control" />
   </div>
 
-  <div>
-    <label for="rating">Rating (1-5):</label>
-    <input type="number" name="rating" id="rating" min="1" max="5" />
+  <div class="col-md-4">
+    <label for="rating" class="form-label">Rating (1-5):</label>
+    <input type="number" name="rating" id="rating" class="form-control" min="1" max="5" />
   </div>
 
-  <div>
-    <label for="review">Review:</label>
-    <textarea name="review" id="review"></textarea>
+  <div class="col-md-12">
+    <label for="review" class="form-label">Review:</label>
+    <textarea name="review" id="review" class="form-control"></textarea>
   </div>
 
-  <div>
-    <label for="date_read">Date Read:</label>
-    <input type="date" name="date_read" id="date_read" />
+  <div class="col-md-4">
+    <label for="date_read" class="form-label">Date Read:</label>
+    <input type="date" name="date_read" id="date_read" class="form-control" />
   </div>
 
-  <button type="submit">Add Book</button>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Add Book</button>
+  </div>
 </form>
