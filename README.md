@@ -97,12 +97,15 @@ CREATE TABLE books (
  npm run dev
  ```
  This starts the server on http://localhost:3000.
+
 2.	View the main page:
 	•	Go to http://localhost:3000 to see your book list.
 	•	Use the Add Book button to create a new entry.
+
 3.	Sort Books:
 	•	Add ?sort=rating to sort by rating: e.g., http://localhost:3000/?sort=rating.
 	•	Add ?sort=date to sort by date read.
+  
 4.	Edit or Delete:
 	•	Click Edit to update a book’s details.
 	•	Click Delete to remove a book from the list.
