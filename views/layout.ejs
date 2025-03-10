@@ -1,0 +1,25 @@
+<!-- views/layout.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Book Logger</title>
+</head>
+<body>
+  <header>
+    <h1>My Book Logger</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/books/new">Add Book</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Display page-specific content here -->
+    <%- body %>
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %></p>
+  </footer>
+</body>
+</html>
