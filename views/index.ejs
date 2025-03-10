@@ -1,3 +1,4 @@
+<!-- views/index.ejs -->
 <h2>All Books</h2>
 
 <div class="sorting">
@@ -7,32 +8,39 @@
   <a href="/">Default</a>
 </div>
 
-<ul>
-  <% books.forEach(book => { %>
-    <li>
-      <h3><%= book.title %></h3>
-      <p>Author: <%= book.author || 'N/A' %></p>
-      <p>Rating: <%= book.rating || 'N/A' %></p>
-      <% if (book.date_read) { %>
-        <!-- Convert to Date object if needed -->
-        <p>Date Read: <%= new Date(book.date_read).toDateString() %></p>
-      <% } %>
+<% if (!books || books.length === 0) { %>
+  <p>No Books Found. Try adding a new one!</p>
+<% } else { %>
+  <ul>
+    <% books.forEach(book => { %>
+      <li>
+        <h3><%= book.title %></h3>
+        <p>Author: <%= book.author || 'N/A' %></p>
+        <p>Rating: <%= book.rating || 'N/A' %></p>
 
-      <% if (book.isbn) { %>
-        <!-- Cover from Open Library -->
-        <img
-          src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg"
-          alt="Cover for <%= book.title %>"
-          width="200"
-        />
-      <% } %>
+        <% if (book.date_read) { %>
+          <p>Date Read: <%= new Date(book.date_read).toDateString() %></p>
+        <% } %>
 
-      <p><%= book.review || '' %></p>
+        <% if (book.isbn) { %>
+          <!-- Cover from Open Library -->
+          <img
+            src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg"
+            alt="Cover for <%= book.title %>"
+            width="200"
+          />
+        <% } %>
 
-      <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
-        <button type="submit">Delete</button>
-      </form>
-      <a href="/books/<%= book.id %>/edit">Edit</a>
-    </li>
-  <% }) %>
-</ul>
+        <p><%= book.review || '' %></p>
+
+        <!-- Delete button -->
+        <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+
+        <!-- Edit link -->
+        <a href="/books/<%= book.id %>/edit">Edit</a>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>

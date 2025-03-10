@@ -5,10 +5,13 @@ const app = express();
 const PORT = 3000;
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import 'dotenv/config';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+import ejs from 'ejs';
+import path from 'path';
 // Use __dirname when setting up views or static files
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -26,109 +29,134 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-
-
+// -------------- HOME (LIST BOOKS) --------------
 app.get('/', async (req, res) => {
   try {
-    // Check if there's a sort query
-    // e.g., /?sort=rating or /?sort=date
+    // Fetch books from DB
+    const sort = req.query.sort;
     let sortQuery = '';
-    if (req.query.sort === 'rating') {
-      sortQuery = 'ORDER BY rating DESC';
-    } else if (req.query.sort === 'date') {
-      sortQuery = 'ORDER BY date_read DESC';
-    } else {
-      // Default sort: by created date
-      sortQuery = 'ORDER BY created_at DESC';
-    }
+    if (sort === 'rating') sortQuery = 'ORDER BY rating DESC';
+    else if (sort === 'date') sortQuery = 'ORDER BY date_read DESC';
+    else sortQuery = 'ORDER BY created_at DESC';
 
-    const { rows: books } = await db.query(
-      `SELECT * FROM books ${sortQuery}`
+    const { rows: books } = await db.query(`SELECT * FROM books ${sortQuery}`);
+
+    // 1) Render the partial for index content
+    ejs.renderFile(
+      path.join(__dirname, 'views', 'index.ejs'),
+      { books },
+      (err, str) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Error rendering index content');
+        }
+        // 2) Now render the layout, passing in the string
+        res.render('layout', { body: str });
+      }
     );
-    res.render('layout', { books });
   } catch (err) {
-    console.error('Error fetching books:', err);
+    console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
-// 2) SHOW FORM TO ADD A NEW BOOK
+
+// -------------- CREATE BOOK PAGE --------------
 app.get('/books/new', (req, res) => {
-  res.render('create');
+  // 1) Render the createContent.ejs partial
+  ejs.renderFile(
+    path.join(__dirname, 'views', 'create.ejs'),
+    {}, // no data needed
+    (err, str) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error rendering create content');
+      }
+      // 2) Render layout with the partial’s HTML
+      res.render('layout', { body: str });
+    }
+  );
 });
-// 3) CREATE NEW BOOK (handles form submit)
+
+// -------------- CREATE BOOK HANDLER --------------
 app.post('/books', async (req, res) => {
   try {
     const { title, author, isbn, rating, review, date_read } = req.body;
-
-    // Insert into DB
     await db.query(
       `INSERT INTO books (title, author, isbn, rating, review, date_read)
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [title, author, isbn, rating, review, date_read]
     );
-
     res.redirect('/');
   } catch (err) {
-    console.error('Error adding book:', err);
+    console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
-// 4) SHOW FORM TO EDIT AN EXISTING BOOK
+
+// -------------- EDIT BOOK PAGE --------------
 app.get('/books/:id/edit', async (req, res) => {
   try {
     const { id } = req.params;
     const { rows } = await db.query('SELECT * FROM books WHERE id = $1', [id]);
-
     if (rows.length === 0) {
       return res.status(404).send('Book not found');
     }
-
     const book = rows[0];
-    res.render('edit', { book });
+
+    // 1) Render the editContent.ejs partial with the book
+    ejs.renderFile(
+      path.join(__dirname, 'views', 'edit.ejs'),
+      { book },
+      (err, str) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Error rendering edit content');
+        }
+        // 2) Wrap it in layout
+        res.render('layout', { body: str });
+      }
+    );
   } catch (err) {
-    console.error('Error fetching book:', err);
+    console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
 
-// 5) UPDATE BOOK (handles edit form submit)
+// -------------- EDIT BOOK HANDLER --------------
 app.post('/books/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { title, author, isbn, rating, review, date_read } = req.body;
-
-    // Update book
     await db.query(
-      `UPDATE books
-       SET title = $1,
-           author = $2,
-           isbn = $3,
-           rating = $4,
-           review = $5,
-           date_read = $6,
-           updated_at = NOW()
+      `UPDATE books SET
+         title = $1,
+         author = $2,
+         isbn = $3,
+         rating = $4,
+         review = $5,
+         date_read = $6
        WHERE id = $7`,
       [title, author, isbn, rating, review, date_read, id]
     );
-
     res.redirect('/');
   } catch (err) {
-    console.error('Error updating book:', err);
+    console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
 
-// 6) DELETE A BOOK
+// -------------- DELETE BOOK --------------
 app.post('/books/:id/delete', async (req, res) => {
   try {
     const { id } = req.params;
     await db.query('DELETE FROM books WHERE id = $1', [id]);
     res.redirect('/');
   } catch (err) {
-    console.error('Error deleting book:', err);
+    console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 // 7) OPTIONAL: API INTEGRATION ROUTE (Example)
 app.get('/cover/:isbn', async (req, res) => {
