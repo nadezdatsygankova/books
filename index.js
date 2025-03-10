@@ -1,20 +1,32 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
-
 const app = express();
-const port = 3000;
+const PORT = 3000;
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Use __dirname when setting up views or static files
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.use(express.static(__dirname + "/public"));
+
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "book_logger",
-  password: "Volgograd",
-  port: 5432,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT) || 5432
 });
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+
 
 app.get('/', async (req, res) => {
   try {
@@ -30,10 +42,10 @@ app.get('/', async (req, res) => {
       sortQuery = 'ORDER BY created_at DESC';
     }
 
-    const { rows: books } = await pool.query(
+    const { rows: books } = await db.query(
       `SELECT * FROM books ${sortQuery}`
     );
-    res.render('index', { books });
+    res.render('layout', { books });
   } catch (err) {
     console.error('Error fetching books:', err);
     res.status(500).send('Internal Server Error');
@@ -49,7 +61,7 @@ app.post('/books', async (req, res) => {
     const { title, author, isbn, rating, review, date_read } = req.body;
 
     // Insert into DB
-    await pool.query(
+    await db.query(
       `INSERT INTO books (title, author, isbn, rating, review, date_read)
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [title, author, isbn, rating, review, date_read]
@@ -61,11 +73,11 @@ app.post('/books', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-/ 4) SHOW FORM TO EDIT AN EXISTING BOOK
+// 4) SHOW FORM TO EDIT AN EXISTING BOOK
 app.get('/books/:id/edit', async (req, res) => {
   try {
     const { id } = req.params;
-    const { rows } = await pool.query('SELECT * FROM books WHERE id = $1', [id]);
+    const { rows } = await db.query('SELECT * FROM books WHERE id = $1', [id]);
 
     if (rows.length === 0) {
       return res.status(404).send('Book not found');
@@ -86,7 +98,7 @@ app.post('/books/:id', async (req, res) => {
     const { title, author, isbn, rating, review, date_read } = req.body;
 
     // Update book
-    await pool.query(
+    await db.query(
       `UPDATE books
        SET title = $1,
            author = $2,
@@ -110,7 +122,7 @@ app.post('/books/:id', async (req, res) => {
 app.post('/books/:id/delete', async (req, res) => {
   try {
     const { id } = req.params;
-    await pool.query('DELETE FROM books WHERE id = $1', [id]);
+    await db.query('DELETE FROM books WHERE id = $1', [id]);
     res.redirect('/');
   } catch (err) {
     console.error('Error deleting book:', err);

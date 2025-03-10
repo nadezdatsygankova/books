@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Book Logger</title>
+</head>
+<body>
+  <header>
+    <h1>My Book Logger</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/books/new">Add Book</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Here we include the content for the page -->
+    <!-- <%- include('index', { books: books }) %> -->
+    <%- body %>
+
+    <!--
+         'index' is the filename (index.ejs).
+         We pass { books: books } so it can loop over your DB records.
+    -->
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %></p>
+  </footer>
+</body>
+</html>

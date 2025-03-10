@@ -1,0 +1,38 @@
+<h2>All Books</h2>
+
+<div class="sorting">
+  <span>Sort By:</span>
+  <a href="/?sort=rating">Rating</a> |
+  <a href="/?sort=date">Date Read</a> |
+  <a href="/">Default</a>
+</div>
+
+<ul>
+  <% books.forEach(book => { %>
+    <li>
+      <h3><%= book.title %></h3>
+      <p>Author: <%= book.author || 'N/A' %></p>
+      <p>Rating: <%= book.rating || 'N/A' %></p>
+      <% if (book.date_read) { %>
+        <!-- Convert to Date object if needed -->
+        <p>Date Read: <%= new Date(book.date_read).toDateString() %></p>
+      <% } %>
+
+      <% if (book.isbn) { %>
+        <!-- Cover from Open Library -->
+        <img
+          src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg"
+          alt="Cover for <%= book.title %>"
+          width="200"
+        />
+      <% } %>
+
+      <p><%= book.review || '' %></p>
+
+      <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
+        <button type="submit">Delete</button>
+      </form>
+      <a href="/books/<%= book.id %>/edit">Edit</a>
+    </li>
+  <% }) %>
+</ul>
