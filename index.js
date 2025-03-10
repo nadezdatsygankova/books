@@ -5,7 +5,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 const dbUri = process.env.DB_URI;
-
 // A simple GET route
 app.get('/', (req, res) => {
   res.send('Hello, World!');
